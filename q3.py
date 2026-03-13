@@ -8,6 +8,7 @@ GRADE_MAPPING = [
 
 
 def main():
+    # Get total number of students
     total_student = 0
     while True:
         while True:
@@ -21,10 +22,12 @@ def main():
         else:
             print("Invalid input (number must be between 3 and 10)")
 
-    student_list = []
+    # Get all students information
+    student_list = {}
     for i in range(total_student):
         name = input(f"Student {i + 1} name: ")
 
+        # Student name and score validation
         while True:
             while True:
                 try:
@@ -34,25 +37,43 @@ def main():
                     print("Score must be integer.")
 
             if 0 <= score <= 100:
-                for category, minimum in GRADE_MAPPING:
-                    if score >= minimum:
-                        score_category = category
-                        break
                 break
             print("Score must be between 0-100")
+        student_list[name] = score
 
-        student_list.append({
-            "name": name,
-            "score": score,
-            "score_category": score_category
-        })
-
+    # Print Result
     print("\nResults:")
-    for student in student_list:
-        name = student["name"]
-        first_letter = name[0].upper()
-        new_name = first_letter + name[1:]
-        print(f"{new_name}: {student["score"]} ({student["score_category"]})")
+    for name, score in student_list.items():
+        for category, minimum in GRADE_MAPPING:
+            if score >= minimum:
+                score_category = category
+                break
+        print(f"{name}: {score} ({score_category})")
+
+    # Get average
+    score_list = list(student_list.values())
+    print(f"\nAverage score: {sum(score_list)/total_student}")
+
+    # Get minimum & maximum
+    names_list = list(student_list.keys())
+    min_score = min(score_list)
+    max_score = max(score_list)
+
+    min_names = []
+    max_names = []
+    for i, score in enumerate(score_list):
+        if score == min_score:
+            min_names.append(names_list[i])
+        if score == max_score:
+            max_names.append(names_list[i])
+
+    print("Highest: ", end="")
+    print(*max_names, sep=", ", end=" ")
+    print(f"({max_score})")
+
+    print("Lowest: ", end="")
+    print(*min_names, sep=", ", end=" ")
+    print(f"({min_score})")
 
 
 main()
