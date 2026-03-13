@@ -1,0 +1,59 @@
+GRADE_MAPPING = {
+    "HD": 85,
+    "D": 75,
+    "C": 65,
+    "P": 50,
+    "F": 0
+}
+
+
+def main():
+    total_student = 0
+    while True:
+        while True:
+            try:
+                total_student = int(input("How many students?\n"))
+                break
+            except ValueError:
+                print("Input must be numerical.")
+        if 3 <= total_student <= 10:
+            break
+        else:
+            print("Invalid input (number must be between 3 and 10)")
+
+    student_list = []
+    for i in range(total_student):
+        name = input(f"Student {i + 1} name: ")
+
+        while True:
+            while True:
+                try:
+                    score = int(input(f"{name}'s score: "))
+                    break
+                except ValueError:
+                    print("Score must be numerical.")
+
+            if score > 10:
+                score_category = "S"
+                break
+            elif score > 5:
+                score_category = "A"
+                break
+
+            print("invalid score")
+
+        student_list.append({
+            "name": name,
+            "score": score,
+            "score_category": score_category
+        })
+
+    print("Results:")
+    for student in student_list:
+        name = student["name"]
+        first_letter = name[0].upper()
+        new_name = first_letter + name[1:]
+        print(f"{new_name}: {student["score"]} ({student["score_category"]})")
+
+
+main()
