@@ -1,10 +1,10 @@
-GRADE_MAPPING = {
-    "HD": 85,
-    "D": 75,
-    "C": 65,
-    "P": 50,
-    "F": 0
-}
+GRADE_MAPPING = [
+    ("HD", 85),
+    ("D", 75),
+    ("C", 65),
+    ("P", 50),
+    ("F", 0)
+]
 
 
 def main():
@@ -31,16 +31,15 @@ def main():
                     score = int(input(f"{name}'s score: "))
                     break
                 except ValueError:
-                    print("Score must be numerical.")
+                    print("Score must be integer.")
 
-            if score > 10:
-                score_category = "S"
+            if 0 <= score <= 100:
+                for category, minimum in GRADE_MAPPING:
+                    if score >= minimum:
+                        score_category = category
+                        break
                 break
-            elif score > 5:
-                score_category = "A"
-                break
-
-            print("invalid score")
+            print("Score must be between 0-100")
 
         student_list.append({
             "name": name,
@@ -48,7 +47,7 @@ def main():
             "score_category": score_category
         })
 
-    print("Results:")
+    print("\nResults:")
     for student in student_list:
         name = student["name"]
         first_letter = name[0].upper()
