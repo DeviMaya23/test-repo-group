@@ -25,9 +25,21 @@ def main():
     # Get all students information
     student_list = {}
     for i in range(total_student):
-        name = input(f"Student {i + 1} name: ")
+        while True:
+            name = input(f"Student {i + 1} name: ").lower().strip()
+            if not name.replace(" ", "").isalpha():
+                print("Student name must be alpha characters "
+                      "(space between names allowed).")
+                continue
 
-        # Student name and score validation
+            name = name[0].upper() + name[1:]
+
+            if name in student_list:
+                print(f"Student {name} already exists.")
+            else:
+                break
+
+        # Score input & validation
         while True:
             while True:
                 try:
@@ -35,10 +47,10 @@ def main():
                     break
                 except ValueError:
                     print("Score must be integer.")
-
             if 0 <= score <= 100:
                 break
             print("Score must be between 0-100")
+
         student_list[name] = score
 
     # Print Result
