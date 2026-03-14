@@ -1,0 +1,27 @@
+name: Create main branch
+
+on:
+  push:
+    branches:
+      - 'copilot/create-main-branch'
+
+jobs:
+  create-main:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Create main branch if it does not exist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh api repos/${{ github.repository }}/branches/main --silent 2>/dev/null; then
+            echo "main branch already exists, skipping."
+          else
+            echo "Creating main branch from current commit..."
+            gh api repos/${{ github.repository }}/git/refs \
+              --method POST \
+              -f ref="refs/heads/main" \
+              -f sha="${{ github.sha }}"
+            echo "main branch created successfully."
+          fi
