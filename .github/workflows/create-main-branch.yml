@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'copilot/create-main-branch'
+  workflow_dispatch:
 
 jobs:
   create-main:
