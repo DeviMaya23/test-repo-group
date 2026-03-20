@@ -1,3 +1,4 @@
+# Question 3
 GRADE_MAPPING = [
     ("HD", 85),
     ("D", 75),
@@ -9,30 +10,28 @@ GRADE_MAPPING = [
 
 def main():
     # Get total number of students
-    total_student = 0
     while True:
-        while True:
-            try:
-                total_student = int(input("How many students?\n"))
+        try:
+            total_student = int(input("How many students?\n"))
+            if 3 <= total_student <= 10:
                 break
-            except ValueError:
-                print("Input must be numerical.")
-        if 3 <= total_student <= 10:
-            break
-        else:
-            print("Invalid input (number must be between 3 and 10)")
+            else:
+                print("Invalid input (number must be between 3 and 10)")
+        except ValueError:
+            print("Input must be integer.") # Catch non integer input
 
     # Get all students information
     student_list = {}
     for i in range(total_student):
         while True:
+            # Name input & validation
             name = input(f"Student {i + 1} name: ").lower().strip()
             if not name.replace(" ", "").isalpha():
                 print("Student name must be alpha characters "
                       "(space between names allowed).")
                 continue
 
-            name = name[0].upper() + name[1:]
+            name = name[0].upper() + name[1:] # Capitalise first letter of name
 
             if name in student_list:
                 print(f"Student {name} already exists.")
@@ -64,7 +63,7 @@ def main():
 
     # Get average
     score_list = list(student_list.values())
-    print(f"\nAverage score: {sum(score_list)/total_student}")
+    print(f"\nAverage score: {round(sum(score_list) / len(score_list), 2)}")
 
     # Get minimum & maximum
     names_list = list(student_list.keys())
